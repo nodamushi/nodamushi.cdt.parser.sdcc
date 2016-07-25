@@ -3,6 +3,8 @@ $Define
 	$build_action_class /. SDCCParserAction ./
 	$node_factory_create_expression /. new SDCCASTNodeFactory() ./
 	$parser_factory_create_expression /. SDCCSecondaryParserFactory.getDefault() ./
+    $Build /. action. ./
+    $EndBuild /. ./
 $End
 
 
