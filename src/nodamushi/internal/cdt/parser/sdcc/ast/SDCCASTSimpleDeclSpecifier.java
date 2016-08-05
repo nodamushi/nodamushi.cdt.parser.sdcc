@@ -1,7 +1,7 @@
 package nodamushi.internal.cdt.parser.sdcc.ast;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
-import org.eclipse.cdt.core.dom.ast.IASTToken;
+import org.eclipse.cdt.core.dom.ast.IASTLiteralExpression;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTSimpleDeclSpecifier;
 
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTSimpleDeclSpecifier;
@@ -11,9 +11,9 @@ public class SDCCASTSimpleDeclSpecifier extends CASTSimpleDeclSpecifier
 implements ISDCCASTSimpleDeclSpecifier{
 
 
-  private int addrspace=as_no_space,
-      banked =ba_no_banked;
-  private IASTToken addr = null;
+  private int addrspace=as_no_space;
+  private boolean banked =false;
+  private IASTLiteralExpression addr = null;
 
 
   @Override
@@ -28,23 +28,23 @@ implements ISDCCASTSimpleDeclSpecifier{
   }
 
   @Override
-  public IASTToken getAddress(){
+  public IASTLiteralExpression getAddress(){
     return addr;
   }
 
   @Override
-  public void setAddress(IASTToken addressToken){
+  public void setAddress(IASTLiteralExpression addressToken){
     assertNotFrozen();
     this.addr = addressToken;
   }
 
   @Override
-  public int getBanked(){
+  public boolean getBanked(){
     return banked;
   }
 
   @Override
-  public void setBanked(int banked){
+  public void setBanked(boolean banked){
     assertNotFrozen();
     this.banked = banked;
   }

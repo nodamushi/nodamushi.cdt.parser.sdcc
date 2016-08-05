@@ -6,6 +6,7 @@ import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.*;
 import org.eclipse.cdt.core.dom.ast.IASTAttribute;
 import org.eclipse.cdt.core.dom.ast.IASTCompoundStatement;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
+import org.eclipse.cdt.core.dom.ast.IASTLiteralExpression;
 import org.eclipse.cdt.core.dom.ast.IASTToken;
 import org.eclipse.cdt.core.dom.ast.IASTTokenList;
 import org.eclipse.cdt.core.dom.ast.c.ICASTDeclSpecifier;
@@ -103,36 +104,25 @@ public class SDCCParserAction extends C99BuildASTParserAction{
   }
 
   public void consumeSDCCOldAsmStatement(boolean hasState){
-    IASTTokenList list = nodeFactory.newTokenList();
     if(hasState){
-      for(Object o:astStack.closeScope()){
-        IASTToken at = (IASTToken) o;
-        list.addToken(at);
-      }
+      astStack.closeScope();
     }
     ISDCCASTAsmStatement asm = nodeFactory.createAsmStatement();
-    list.setParent(asm);
     setOffsetAndLength(asm);
     astStack.push(asm);
   }
 
   public void consumeASTToken(){
-    IToken t = stream.getRightIToken();
-    IASTToken at = nodeFactory.newToken(DOMToSDCCTokenMap.reverseKind(t.getKind()), t.toString().toCharArray());
-    setOffsetAndLength(at);
-    astStack.push(at);
+    // アセンブラ部分のトークンを保持してもあまり意味ないので何もしないことにした
   }
+
   public void consumeAbsoluteAddress(){
-
-    IASTToken token = nodeFactory.newToken(org.eclipse.cdt.core.parser.IToken.tINTEGER, stream.getRightIToken().toString().toCharArray());
-    setOffsetAndLength(token);
-    astStack.push(token);
-
+    consumeExpressionLiteral(IASTLiteralExpression.lk_integer_constant);
   }
 
-
+  //IASTLiteralExpressionを区別するためのクラス。
   private static class AddrContainer{
-    IASTToken t;
+    IASTLiteralExpression t;
   }
 
   /*
@@ -143,15 +133,17 @@ public class SDCCParserAction extends C99BuildASTParserAction{
          /. $Build  consumeDefineAddress();  $EndBuild ./
    */
   public void consumeDefineAddress(){
-    IASTToken addr =(IASTToken)astStack.pop();
+    IASTLiteralExpression addr =(IASTLiteralExpression)astStack.pop();
     AddrContainer c = new AddrContainer();
     c.t = addr;
     setOffsetAndLength(addr);
     astStack.push(c);
   }
+
   public void consumeAddressSpaceName(){
     consumeToken();
   }
+
   @Override
   public void setSpecifier(ICASTDeclSpecifier node ,Object specifier){
     ISDCCASTDeclSpecifier node2 = (ISDCCASTDeclSpecifier) node;
@@ -160,7 +152,7 @@ public class SDCCParserAction extends C99BuildASTParserAction{
       IToken token = (IToken)specifier;
       switch(token.getKind()){
         case TK___banked:
-          node2.setBanked(ba_banked);break;
+          node2.setBanked(true);break;
         case TK___data:
           node2.setAddressSpace(as_data);break;
         case TK___near:
@@ -198,8 +190,5 @@ public class SDCCParserAction extends C99BuildASTParserAction{
       node2.setAddress(ac.t);
     }
   }
-
-
-
 
 }
