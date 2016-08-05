@@ -1,4 +1,4 @@
-package nodamushi.cdt.parser.sdcc;
+package nodamushi.internal.cdt.parser.sdcc;
 
 import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.*;
 import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.*;
@@ -19,7 +19,7 @@ import org.eclipse.cdt.core.dom.lrparser.action.c99.C99BuildASTParserAction;
 import lpg.lpgjavaruntime.IToken;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTAsmStatement;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier;
-import nodamushi.internal.cdt.parser.sdcc.SDCCParsersym;
+import nodamushi.cdt.parser.sdcc.ast.ISDCCNodeFactory;
 
 public class SDCCParserAction extends C99BuildASTParserAction{
 

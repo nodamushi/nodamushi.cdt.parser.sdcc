@@ -1,4 +1,4 @@
-package nodamushi.cdt.parser.sdcc;
+package nodamushi.internal.cdt.parser.sdcc;
 
 import org.eclipse.cdt.core.dom.parser.CLanguageKeywords;
 import org.eclipse.cdt.core.dom.parser.IScannerExtensionConfiguration;
@@ -18,8 +18,8 @@ public class SDCCLanguageKeywords extends CLanguageKeywords{
 
   private String[] types;
 
-  static volatile int __bit_index;
-  static volatile int __sbit_index;
+  static int __bit_index;
+  static int __sbit_index;
 
   @Override
   public String[] getBuiltinTypes(){

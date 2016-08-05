@@ -1,14 +1,7 @@
-package nodamushi.cdt.parser.sdcc;
+package nodamushi.cdt.parser.sdcc.ast;
 
 import org.eclipse.cdt.core.dom.ast.IASTName;
 import org.eclipse.cdt.core.dom.ast.c.ICNodeFactory;
-
-import nodamushi.cdt.parser.sdcc.ast.ISDCCASTAsmStatement;
-import nodamushi.cdt.parser.sdcc.ast.ISDCCASTCompositeTypeSpecifier;
-import nodamushi.cdt.parser.sdcc.ast.ISDCCASTElaboratedTypeSpecifier;
-import nodamushi.cdt.parser.sdcc.ast.ISDCCASTEnumerationSpecifier;
-import nodamushi.cdt.parser.sdcc.ast.ISDCCASTSimpleDeclSpecifier;
-import nodamushi.cdt.parser.sdcc.ast.ISDCCASTTypedefNameSpecifier;
 
 public interface ISDCCNodeFactory extends ICNodeFactory{
 

@@ -1,4 +1,4 @@
-package nodamushi.cdt.parser.sdcc;
+package nodamushi.internal.cdt.parser.sdcc;
 
 import java.util.Map;
 
@@ -6,10 +6,6 @@ import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.lrparser.ISecondaryParser;
 import org.eclipse.cdt.core.dom.lrparser.action.ISecondaryParserFactory;
 import org.eclipse.cdt.core.dom.lrparser.action.ITokenStream;
-
-import nodamushi.internal.cdt.parser.sdcc.SDCCExpressionParser;
-import nodamushi.internal.cdt.parser.sdcc.SDCCNoCastExpressionParser;
-import nodamushi.internal.cdt.parser.sdcc.SDCCSizeofExpressionParser;
 
 public class SDCCSecondaryParserFactory implements ISecondaryParserFactory{
 

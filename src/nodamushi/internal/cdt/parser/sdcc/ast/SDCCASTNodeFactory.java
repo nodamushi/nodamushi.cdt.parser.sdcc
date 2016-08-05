@@ -3,13 +3,13 @@ package nodamushi.internal.cdt.parser.sdcc.ast;
 import org.eclipse.cdt.core.dom.ast.IASTName;
 import org.eclipse.cdt.internal.core.dom.parser.c.CNodeFactory;
 
-import nodamushi.cdt.parser.sdcc.ISDCCNodeFactory;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTAsmStatement;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTCompositeTypeSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTElaboratedTypeSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTEnumerationSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTSimpleDeclSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTTypedefNameSpecifier;
+import nodamushi.cdt.parser.sdcc.ast.ISDCCNodeFactory;
 
 @SuppressWarnings("restriction")
 public class SDCCASTNodeFactory extends CNodeFactory implements ISDCCNodeFactory{

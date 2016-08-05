@@ -15,15 +15,28 @@ import org.eclipse.cdt.core.model.ICLanguageKeywords;
 import org.eclipse.cdt.core.parser.IScanner;
 import org.eclipse.cdt.core.parser.ParserLanguage;
 
+import nodamushi.internal.cdt.parser.sdcc.DOMToSDCCTokenMap;
+import nodamushi.internal.cdt.parser.sdcc.SDCCLanguageKeywords;
 import nodamushi.internal.cdt.parser.sdcc.SDCCParser;
 
+/**
+ * SDCCの方言にある程度対応したC99ベースの言語
+ * @author nodamushi
+ *
+ */
 public class SDCCLanguage extends BaseExtensibleLanguage{
+  /**プラグインID*/
+  public static final String PLUGIN_ID = "nodamushi.cdt.parser.sdcc";//$NON-NLS-1$
+  /**Language ID(プラグインIDは含まない)*/
+  public static final String LANGUAGE_ID = "nodamushi_sdcc"; //$NON-NLS-1$
+  /**PLUGIN_ID.LANGUAGE_ID */
+  public static final String ID = PLUGIN_ID+"."+LANGUAGE_ID; //$NON-NLS-1$
 
-  public static final String ID = "nodamushi.cdt.parser.sdcc.nodamushi_sdcc"; //$NON-NLS-1$
 
+  private static final DOMToSDCCTokenMap TOKEN_MAP = new DOMToSDCCTokenMap();
   @Override
   protected IParser<IASTTranslationUnit> getParser(IScanner scanner, IIndex index, Map<String,String> properties) {
-    return new SDCCParser(scanner, new DOMToSDCCTokenMap(), getBuiltinBindingsProvider(), index, properties);
+    return new SDCCParser(scanner, TOKEN_MAP, getBuiltinBindingsProvider(), index, properties);
   }
 
   @Override

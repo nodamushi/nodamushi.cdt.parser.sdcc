@@ -1,13 +1,10 @@
-package nodamushi.cdt.parser.sdcc;
+package nodamushi.internal.cdt.parser.sdcc;
 
-import java.util.OptionalInt;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.*;
 
 import org.eclipse.cdt.core.dom.lrparser.c99.C99Language;
 import org.eclipse.cdt.core.model.ICLanguageKeywords;
 import org.eclipse.cdt.core.parser.util.CharArrayIntMap;
-
-
-import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.*;
 /**
  *
  * SDCC additional keywords
@@ -49,7 +46,7 @@ public enum SDCCKeyword{
   ;
 
 
-  private static final int EMPTY_NUMBER = Integer.MIN_VALUE;
+  static final int EMPTY_NUMBER = Integer.MIN_VALUE;
   private static final CharArrayIntMap tokenMap;
   private static final String[] sdccKeywords,allKeywords;
 
@@ -74,12 +71,12 @@ public enum SDCCKeyword{
     System.arraycopy(sdccKeywords, 0, allKeywords, c99ks.length, size);
   }
 
-  public static OptionalInt getTokenKind(char[] image){
+  public static int getTokenKind(char[] image){
     if(image == null){
-      return OptionalInt.empty();
+      return EMPTY_NUMBER;
     }else{
       int v = tokenMap.get(image);
-      return v == EMPTY_NUMBER? OptionalInt.empty():OptionalInt.of(v);
+      return v;
     }
   }
 
