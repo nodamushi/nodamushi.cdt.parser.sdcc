@@ -1,6 +1,6 @@
 # nodamushi sdcc
 
-SDCC Language Parser for Eclipse SDCC
+SDCC Language Parser for Eclipse CDT
 
 # Install site
 
