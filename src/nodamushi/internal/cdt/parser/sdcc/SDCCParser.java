@@ -1526,28 +1526,28 @@ public String getName() {
           break;
             } 
             //
-            // Rule 347:  address_function_attribute ::= __interrupt ( absolute_address )
+            // Rule 347:  address_function_attribute ::= __interrupt ( integer_token )
             //
             case 347: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);    
           break;
             } 
             //
-            // Rule 348:  address_function_attribute ::= __interrupt absolute_address
+            // Rule 348:  address_function_attribute ::= __interrupt integer_token
             //
             case 348: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);    
           break;
             } 
             //
-            // Rule 349:  address_function_attribute ::= __using ( absolute_address )
+            // Rule 349:  address_function_attribute ::= __using ( integer_token )
             //
             case 349: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);    
           break;
             } 
             //
-            // Rule 350:  address_function_attribute ::= __using absolute_address
+            // Rule 350:  address_function_attribute ::= __using integer_token
             //
             case 350: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);    
@@ -1568,51 +1568,58 @@ public String getName() {
           break;
             } 
             //
-            // Rule 353:  preserves_regs_attribute ::= __preserves__regs ( )
+            // Rule 353:  integer_token ::= integer
             //
             case 353: {
+                  action.   consumeIntegerToken();    
+          break;
+            } 
+            //
+            // Rule 354:  preserves_regs_attribute ::= __preserves__regs ( )
+            //
+            case 354: {
                   action.   consumeSDCCPreservesRegsAttribute(false);    
           break;
             } 
             //
-            // Rule 354:  preserves_regs_attribute ::= __preserves__regs ( <openscope-ast> preserves_regs_args )
+            // Rule 355:  preserves_regs_attribute ::= __preserves__regs ( <openscope-ast> preserves_regs_args )
             //
-            case 354: {
+            case 355: {
                   action.   consumeSDCCPreservesRegsAttribute(true);    
           break;
             } 
             //
-            // Rule 357:  preserves_regs_arg ::= identifier
+            // Rule 358:  preserves_regs_arg ::= identifier
             //
-            case 357: {
+            case 358: {
                   action.   consumeSDCCPreservesRegsArg();    
           break;
             } 
             //
-            // Rule 360:  critical_statement ::= __critical compound_statement
+            // Rule 361:  critical_statement ::= __critical compound_statement
             //
-            case 360: {
+            case 361: {
                   action.   consumeCriticalAttribute();    
           break;
             } 
             //
-            // Rule 361:  oldasm_satement ::= __asm <openscope-ast> oldasm_contents __endasm ;
+            // Rule 362:  oldasm_satement ::= __asm <openscope-ast> oldasm_contents __endasm ;
             //
-            case 361: {
+            case 362: {
                   action.   consumeSDCCOldAsmStatement(true);    
           break;
             } 
             //
-            // Rule 362:  oldasm_satement ::= __asm __endasm ;
+            // Rule 363:  oldasm_satement ::= __asm __endasm ;
             //
-            case 362: {
+            case 363: {
                   action.   consumeSDCCOldAsmStatement(false);    
           break;
             } 
             //
-            // Rule 365:  oldasm_content ::= oldasm_item
+            // Rule 366:  oldasm_content ::= oldasm_item
             //
-            case 365: {
+            case 366: {
                   action.   consumeASTToken();    
           break;
             }

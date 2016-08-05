@@ -125,6 +125,12 @@ public class SDCCParserAction extends C99BuildASTParserAction{
     IASTLiteralExpression t;
   }
 
+  public void consumeIntegerToken(){
+    IASTToken token = nodeFactory.newToken(org.eclipse.cdt.core.parser.IToken.tINTEGER, stream.getRightIToken().toString().toCharArray());
+    setOffsetAndLength(token);
+    astStack.push(token);
+  }
+
   /*
   define_address
     ::= '__at' '(' absolute_address ')'

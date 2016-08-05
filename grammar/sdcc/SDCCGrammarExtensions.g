@@ -138,18 +138,24 @@ sdcc_function_attribute
 
 
 address_function_attribute
-  ::= '__interrupt' '(' absolute_address ')'
+  ::= '__interrupt' '(' integer_token  ')'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);  $EndBuild ./
-    | '__interrupt' absolute_address
+    | '__interrupt'  integer_token 
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);  $EndBuild ./
-    | '__using' '(' absolute_address ')'
+    | '__using' '('  integer_token  ')'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);  $EndBuild ./
-    | '__using' absolute_address
+    | '__using'  integer_token 
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);  $EndBuild ./
     | '__interrupt'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,false);  $EndBuild ./
     | '__using'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__using,false);  $EndBuild ./
+
+
+integer_token
+    ::= 'integer'
+         /. $Build  consumeIntegerToken();  $EndBuild ./
+
 
 preserves_regs_attribute
     ::= '__preserves__regs' '(' ')'

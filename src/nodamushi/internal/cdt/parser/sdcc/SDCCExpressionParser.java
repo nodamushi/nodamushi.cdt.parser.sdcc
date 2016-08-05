@@ -1556,28 +1556,28 @@ public SDCCExpressionParser(ITokenStream stream, Map<String,String> properties) 
           break;
             } 
             //
-            // Rule 349:  address_function_attribute ::= __interrupt ( absolute_address )
+            // Rule 349:  address_function_attribute ::= __interrupt ( integer_token )
             //
             case 349: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);    
           break;
             } 
             //
-            // Rule 350:  address_function_attribute ::= __interrupt absolute_address
+            // Rule 350:  address_function_attribute ::= __interrupt integer_token
             //
             case 350: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);    
           break;
             } 
             //
-            // Rule 351:  address_function_attribute ::= __using ( absolute_address )
+            // Rule 351:  address_function_attribute ::= __using ( integer_token )
             //
             case 351: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);    
           break;
             } 
             //
-            // Rule 352:  address_function_attribute ::= __using absolute_address
+            // Rule 352:  address_function_attribute ::= __using integer_token
             //
             case 352: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);    
@@ -1598,51 +1598,58 @@ public SDCCExpressionParser(ITokenStream stream, Map<String,String> properties) 
           break;
             } 
             //
-            // Rule 355:  preserves_regs_attribute ::= __preserves__regs ( )
+            // Rule 355:  integer_token ::= integer
             //
             case 355: {
+                  action.   consumeIntegerToken();    
+          break;
+            } 
+            //
+            // Rule 356:  preserves_regs_attribute ::= __preserves__regs ( )
+            //
+            case 356: {
                   action.   consumeSDCCPreservesRegsAttribute(false);    
           break;
             } 
             //
-            // Rule 356:  preserves_regs_attribute ::= __preserves__regs ( <openscope-ast> preserves_regs_args )
+            // Rule 357:  preserves_regs_attribute ::= __preserves__regs ( <openscope-ast> preserves_regs_args )
             //
-            case 356: {
+            case 357: {
                   action.   consumeSDCCPreservesRegsAttribute(true);    
           break;
             } 
             //
-            // Rule 359:  preserves_regs_arg ::= identifier
+            // Rule 360:  preserves_regs_arg ::= identifier
             //
-            case 359: {
+            case 360: {
                   action.   consumeSDCCPreservesRegsArg();    
           break;
             } 
             //
-            // Rule 362:  critical_statement ::= __critical compound_statement
+            // Rule 363:  critical_statement ::= __critical compound_statement
             //
-            case 362: {
+            case 363: {
                   action.   consumeCriticalAttribute();    
           break;
             } 
             //
-            // Rule 363:  oldasm_satement ::= __asm <openscope-ast> oldasm_contents __endasm ;
+            // Rule 364:  oldasm_satement ::= __asm <openscope-ast> oldasm_contents __endasm ;
             //
-            case 363: {
+            case 364: {
                   action.   consumeSDCCOldAsmStatement(true);    
           break;
             } 
             //
-            // Rule 364:  oldasm_satement ::= __asm __endasm ;
+            // Rule 365:  oldasm_satement ::= __asm __endasm ;
             //
-            case 364: {
+            case 365: {
                   action.   consumeSDCCOldAsmStatement(false);    
           break;
             } 
             //
-            // Rule 367:  oldasm_content ::= oldasm_item
+            // Rule 368:  oldasm_content ::= oldasm_item
             //
-            case 367: {
+            case 368: {
                   action.   consumeASTToken();    
           break;
             }
