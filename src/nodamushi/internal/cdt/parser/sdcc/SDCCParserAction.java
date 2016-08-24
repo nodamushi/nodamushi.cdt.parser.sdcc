@@ -7,6 +7,7 @@ import org.eclipse.cdt.core.dom.ast.IASTAttribute;
 import org.eclipse.cdt.core.dom.ast.IASTCompoundStatement;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
 import org.eclipse.cdt.core.dom.ast.IASTLiteralExpression;
+import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTToken;
 import org.eclipse.cdt.core.dom.ast.IASTTokenList;
 import org.eclipse.cdt.core.dom.ast.c.ICASTDeclSpecifier;
@@ -19,6 +20,7 @@ import org.eclipse.cdt.core.dom.lrparser.action.c99.C99BuildASTParserAction;
 import lpg.lpgjavaruntime.IToken;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTAsmStatement;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier;
+import nodamushi.cdt.parser.sdcc.ast.ISDCCASTSimpleDeclSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCNodeFactory;
 
 public class SDCCParserAction extends C99BuildASTParserAction{
@@ -174,18 +176,39 @@ public class SDCCParserAction extends C99BuildASTParserAction{
         case TK___code:
           node2.setAddressSpace(as_code);break;
         case TK___bit:
+          if(node instanceof ISDCCASTSimpleDeclSpecifier){
+            ISDCCASTSimpleDeclSpecifier n = (ISDCCASTSimpleDeclSpecifier)node;
+            n.setUnsigned(true);
+          }
           node2.setAddressSpace(as_bit);
-          // TODO setBuiltinType
           break;
         case TK___sfr:
+          if(node instanceof ISDCCASTSimpleDeclSpecifier){
+            ISDCCASTSimpleDeclSpecifier n = (ISDCCASTSimpleDeclSpecifier)node;
+            n.setType(IASTSimpleDeclSpecifier.t_char);
+            n.setUnsigned(true);
+          }
           node2.setAddressSpace(as_sfr);break;
         case TK___sfr16:
+          if(node instanceof ISDCCASTSimpleDeclSpecifier){
+            ISDCCASTSimpleDeclSpecifier n = (ISDCCASTSimpleDeclSpecifier)node;
+            n.setShort(true);
+            n.setUnsigned(true);
+          }
           node2.setAddressSpace(as_sfr16);break;
         case TK___sfr32:
+          if(node instanceof ISDCCASTSimpleDeclSpecifier){
+            ISDCCASTSimpleDeclSpecifier n = (ISDCCASTSimpleDeclSpecifier)node;
+            n.setType(IASTSimpleDeclSpecifier.t_int);
+            n.setUnsigned(true);
+          }
           node2.setAddressSpace(as_sfr32);break;
         case TK___sbit:
+          if(node instanceof ISDCCASTSimpleDeclSpecifier){
+            ISDCCASTSimpleDeclSpecifier n = (ISDCCASTSimpleDeclSpecifier)node;
+            n.setUnsigned(true);
+          }
           node2.setAddressSpace(as_sbit);
-          // TODO setBuiltinType
           break;
         default:
           super.setSpecifier(node, specifier);

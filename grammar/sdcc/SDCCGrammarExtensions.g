@@ -55,8 +55,8 @@ $End
 
 
 $Rules  -- SDCC grammar extensions to C99
-      
-      
+
+
 -----------------------------------------------------------------------------------
 -- Declarations
 -----------------------------------------------------------------------------------
@@ -76,13 +76,13 @@ address_space_name_qualifier
       | '__idata'
       | '__pdata'
       | '__code'
-      | '__sfr'
-      | '__sfr16'
-      | '__sfr32'
 
 simple_type_specifier_token
     ::= '__sbit'
       | '__bit'
+      | '__sfr'
+      | '__sfr16'
+      | '__sfr32'
 
 define_address
     ::= '__at' '(' absolute_address ')'
@@ -121,7 +121,7 @@ function_direct_declarator
 sdcc_function_attributes
  ::= sdcc_function_attribute
     | sdcc_function_attributes sdcc_function_attribute
- 
+
 sdcc_function_attribute
   ::= address_function_attribute
     | '__critical'
@@ -140,11 +140,11 @@ sdcc_function_attribute
 address_function_attribute
   ::= '__interrupt' '(' integer_token  ')'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);  $EndBuild ./
-    | '__interrupt'  integer_token 
+    | '__interrupt'  integer_token
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);  $EndBuild ./
     | '__using' '('  integer_token  ')'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);  $EndBuild ./
-    | '__using'  integer_token 
+    | '__using'  integer_token
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);  $EndBuild ./
     | '__interrupt'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,false);  $EndBuild ./
@@ -163,7 +163,7 @@ preserves_regs_attribute
       | '__preserves__regs' '(' <openscope-ast> preserves_regs_args ')'
      /. $Build  consumeSDCCPreservesRegsAttribute(true);  $EndBuild ./
 
-preserves_regs_args 
+preserves_regs_args
     ::= preserves_regs_arg
     | preserves_regs_args ',' preserves_regs_arg
 
@@ -207,7 +207,7 @@ oldasm_content
 
 
 -- every terminals but __endasm
-oldasm_item  
+oldasm_item
   ::= 'auto'
     | 'break'
     | 'case'
@@ -322,7 +322,7 @@ oldasm_item
     | '__wparam'
     | '__shadowregs'
     | '__preserves__regs'
-   
+
 
 
 $End
