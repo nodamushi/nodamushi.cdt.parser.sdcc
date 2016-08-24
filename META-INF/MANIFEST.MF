@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SDCC Parser for Eclipse CDT
 Bundle-SymbolicName: nodamushi.cdt.parser.sdcc;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.1
 Bundle-Vendor: Nodamushi
 Export-Package: nodamushi.cdt.parser.sdcc;
   uses:="org.eclipse.cdt.core.index,
