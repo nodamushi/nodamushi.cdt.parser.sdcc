@@ -1,12 +1,36 @@
 package nodamushi.internal.cdt.parser.sdcc;
 
-import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.*;
-import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.*;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_bit;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_code;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_data;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_far;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_idata;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_near;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_pdata;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_sbit;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_sfr;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_sfr16;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_sfr32;
+import static nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier.as_xdata;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___banked;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___bit;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___code;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___data;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___far;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___idata;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___near;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___pdata;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___sbit;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___sfr;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___sfr16;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___sfr32;
+import static nodamushi.internal.cdt.parser.sdcc.SDCCParsersym.TK___xdata;
 
 import org.eclipse.cdt.core.dom.ast.IASTAttribute;
 import org.eclipse.cdt.core.dom.ast.IASTCompoundStatement;
 import org.eclipse.cdt.core.dom.ast.IASTDeclarator;
-import org.eclipse.cdt.core.dom.ast.IASTLiteralExpression;
+import org.eclipse.cdt.core.dom.ast.IASTExpression;
+import org.eclipse.cdt.core.dom.ast.IASTNode;
 import org.eclipse.cdt.core.dom.ast.IASTSimpleDeclSpecifier;
 import org.eclipse.cdt.core.dom.ast.IASTToken;
 import org.eclipse.cdt.core.dom.ast.IASTTokenList;
@@ -20,6 +44,8 @@ import org.eclipse.cdt.core.dom.lrparser.action.c99.C99BuildASTParserAction;
 import lpg.lpgjavaruntime.IToken;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTAsmStatement;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTDeclSpecifier;
+import nodamushi.cdt.parser.sdcc.ast.ISDCCASTFunctionAttribute;
+import nodamushi.cdt.parser.sdcc.ast.ISDCCASTFunctionAttributeList;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTSimpleDeclSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCNodeFactory;
 
@@ -47,9 +73,12 @@ public class SDCCParserAction extends C99BuildASTParserAction{
 
 
   public void consumeSDCCFunctionAttributes(){
-    IGCCASTAttributeList list = nodeFactory.newGCCAttributeList();
+    ISDCCASTFunctionAttributeList list = nodeFactory.newFunctionAttributeList();
+
     for(Object o:astStack.closeScope()){
-      list.addAttribute((IASTAttribute)o);
+      if(o instanceof ISDCCASTFunctionAttribute){
+        list.addAttribute((ISDCCASTFunctionAttribute)o);
+      }
     }
 
     Object pop = astStack.pop();
@@ -62,27 +91,30 @@ public class SDCCParserAction extends C99BuildASTParserAction{
 
   public void consumeSDCCFunctionAttribute(SDCCKeyword attrType,boolean hasData){
     char[] image = attrType.getImage();
-    IASTToken value=null;
+    ISDCCASTFunctionAttribute attr = nodeFactory.newFunctionAttribute(image);
+
     if(hasData){
-      value = (IASTToken) astStack.pop();
+      attr.setValue((IASTNode)astStack.pop());
     }
-    IASTAttribute attr = nodeFactory.newAttribute(image, value);
+
     setOffsetAndLength(attr);
     astStack.push(attr);
   }
 
 
 
+
   public void consumeSDCCPreservesRegsAttribute(boolean hasArgs){
-    IASTTokenList args = null;
+    ISDCCASTFunctionAttribute attr = nodeFactory.newFunctionAttribute(SDCCKeyword.__preserves__regs.getImage());
+
     if(hasArgs){
-      args = nodeFactory.newTokenList();
+      IASTTokenList args = nodeFactory.newTokenList();
       for(Object o:astStack.closeScope()){
         IASTToken t = (IASTToken)o;
         args.addToken(t);
       }
+      attr.setValue(args);
     }
-    IASTAttribute attr = nodeFactory.newAttribute(SDCCKeyword.__preserves__regs.getImage(), args);
     setOffsetAndLength(attr);
     astStack.push(attr);
   }
@@ -118,13 +150,9 @@ public class SDCCParserAction extends C99BuildASTParserAction{
     // アセンブラ部分のトークンを保持してもあまり意味ないので何もしないことにした
   }
 
-  public void consumeAbsoluteAddress(){
-    consumeExpressionLiteral(IASTLiteralExpression.lk_integer_constant);
-  }
-
   //IASTLiteralExpressionを区別するためのクラス。
   private static class AddrContainer{
-    IASTLiteralExpression t;
+    IASTExpression t;
   }
 
   public void consumeIntegerToken(){
@@ -141,7 +169,7 @@ public class SDCCParserAction extends C99BuildASTParserAction{
          /. $Build  consumeDefineAddress();  $EndBuild ./
    */
   public void consumeDefineAddress(){
-    IASTLiteralExpression addr =(IASTLiteralExpression)astStack.pop();
+    IASTExpression addr =(IASTExpression)astStack.pop();
     AddrContainer c = new AddrContainer();
     c.t = addr;
     setOffsetAndLength(addr);

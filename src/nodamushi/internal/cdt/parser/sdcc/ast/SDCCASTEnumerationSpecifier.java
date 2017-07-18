@@ -1,6 +1,7 @@
 package nodamushi.internal.cdt.parser.sdcc.ast;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
+import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTLiteralExpression;
 import org.eclipse.cdt.core.dom.ast.IASTName;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTEnumerationSpecifier;
@@ -23,7 +24,7 @@ implements ISDCCASTEnumerationSpecifier{
 
   private int addrspace=as_no_space;
   private boolean  banked =false;
-  private IASTLiteralExpression addr = null;
+  private IASTExpression addr = null;
 
 
   @Override
@@ -38,12 +39,16 @@ implements ISDCCASTEnumerationSpecifier{
   }
 
   @Override
-  public IASTLiteralExpression getAddress(){
+  public IASTExpression getAddressExpression(){
     return addr;
   }
 
+  @Override  @Deprecated public IASTLiteralExpression getAddress() throws ClassCastException{
+    return IASTLiteralExpression.class.cast(getAddressExpression());
+  }
+
   @Override
-  public void setAddress(IASTLiteralExpression addressToken){
+  public void setAddress(IASTExpression addressToken){
     assertNotFrozen();
     this.addr = addressToken;
   }
@@ -67,11 +72,18 @@ implements ISDCCASTEnumerationSpecifier{
   @Override
   public SDCCASTEnumerationSpecifier copy(CopyStyle style){
     SDCCASTEnumerationSpecifier copy = new SDCCASTEnumerationSpecifier();
+    return copy(copy,style);
+  }
+
+
+  protected <T extends SDCCASTEnumerationSpecifier> T copy(T copy ,
+      CopyStyle style){
     copy.addr = addr == null? null:addr.copy(style);
     copy.addrspace = addrspace;
     copy.banked = banked;
-    return copy(copy,style);
+    return super.copy(copy, style);
   }
+
   @Override
   public boolean accept( ASTVisitor action ){
     if( action.shouldVisitDeclSpecifiers ){

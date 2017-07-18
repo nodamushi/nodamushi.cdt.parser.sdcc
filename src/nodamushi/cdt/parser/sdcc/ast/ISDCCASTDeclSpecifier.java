@@ -1,6 +1,7 @@
 package nodamushi.cdt.parser.sdcc.ast;
 
 import org.eclipse.cdt.core.dom.ast.IASTDeclSpecifier;
+import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTLiteralExpression;
 /**
  * __xdataなどや__atを保存できるようにしたもの。
@@ -42,12 +43,17 @@ public interface ISDCCASTDeclSpecifier extends IASTDeclSpecifier{
   public int getAddressSpace();
   public void setAddressSpace(int addressSpace);
   /**
-   * __at(整数)の整数部分を表すIASTListeralExpressionを返す。<br>
-   * @return lk_integer_constantであるIASTLiteralExpression
-   * @see IASTLiteralExpression#lk_integer_constant
+   * __at(整数)の整数部分を表す {@link IASTExpression}を返す。<br>
+   * @return {@link IASTExpression}
    */
-  public IASTLiteralExpression getAddress();
-  public void setAddress(IASTLiteralExpression addressToken);
+  public IASTExpression getAddressExpression();
+  /**
+   * {@link #getAddressExpression()}を利用すること
+   * @return {@link #getAddressExpression()}を{@link IASTLiteralExpression}にキャストした結果
+   * @deprecated 1.1.0
+   */
+  @Deprecated public IASTLiteralExpression getAddress()throws ClassCastException;
+  public void setAddress(IASTExpression addressToken);
   /**
    * __bankedが付加されているかどうか
    * @return

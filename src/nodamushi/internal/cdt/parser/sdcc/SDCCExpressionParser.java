@@ -1486,13 +1486,6 @@ public SDCCExpressionParser(ITokenStream stream, Map<String,String> properties) 
           break;
             } 
             //
-            // Rule 335:  absolute_address ::= integer
-            //
-            case 335: {
-                  action.   consumeAbsoluteAddress();    
-          break;
-            } 
-            //
             // Rule 336:  sdcc_type_qualifier ::= __banked
             //
             case 336: {
@@ -1556,7 +1549,7 @@ public SDCCExpressionParser(ITokenStream stream, Map<String,String> properties) 
           break;
             } 
             //
-            // Rule 349:  address_function_attribute ::= __interrupt ( integer_token )
+            // Rule 349:  address_function_attribute ::= __interrupt ( constant_expression )
             //
             case 349: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);    
@@ -1570,7 +1563,7 @@ public SDCCExpressionParser(ITokenStream stream, Map<String,String> properties) 
           break;
             } 
             //
-            // Rule 351:  address_function_attribute ::= __using ( integer_token )
+            // Rule 351:  address_function_attribute ::= __using ( constant_expression )
             //
             case 351: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);    

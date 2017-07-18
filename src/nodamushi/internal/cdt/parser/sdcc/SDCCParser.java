@@ -1456,13 +1456,6 @@ public String getName() {
           break;
             } 
             //
-            // Rule 333:  absolute_address ::= integer
-            //
-            case 333: {
-                  action.   consumeAbsoluteAddress();    
-          break;
-            } 
-            //
             // Rule 334:  sdcc_type_qualifier ::= __banked
             //
             case 334: {
@@ -1526,7 +1519,7 @@ public String getName() {
           break;
             } 
             //
-            // Rule 347:  address_function_attribute ::= __interrupt ( integer_token )
+            // Rule 347:  address_function_attribute ::= __interrupt ( constant_expression )
             //
             case 347: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);    
@@ -1540,7 +1533,7 @@ public String getName() {
           break;
             } 
             //
-            // Rule 349:  address_function_attribute ::= __using ( integer_token )
+            // Rule 349:  address_function_attribute ::= __using ( constant_expression )
             //
             case 349: {
                   action.   consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);    

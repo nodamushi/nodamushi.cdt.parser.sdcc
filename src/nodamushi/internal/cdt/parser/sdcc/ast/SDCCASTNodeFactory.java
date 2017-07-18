@@ -7,6 +7,8 @@ import nodamushi.cdt.parser.sdcc.ast.ISDCCASTAsmStatement;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTCompositeTypeSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTElaboratedTypeSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTEnumerationSpecifier;
+import nodamushi.cdt.parser.sdcc.ast.ISDCCASTFunctionAttribute;
+import nodamushi.cdt.parser.sdcc.ast.ISDCCASTFunctionAttributeList;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTSimpleDeclSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCASTTypedefNameSpecifier;
 import nodamushi.cdt.parser.sdcc.ast.ISDCCNodeFactory;
@@ -45,5 +47,14 @@ public class SDCCASTNodeFactory extends CNodeFactory implements ISDCCNodeFactory
   @Override
   public ISDCCASTTypedefNameSpecifier newTypedefNameSpecifier(IASTName name){
     return new SDCCASTTypedefNameSpecifier(name);
+  }
+  @Override
+  public ISDCCASTFunctionAttribute newFunctionAttribute(char[] name){
+    return new SDCCASTFunctionAttribute(name);
+  }
+
+  @Override
+  public ISDCCASTFunctionAttributeList newFunctionAttributeList(){
+    return new SDCCASTFunctionAttributeList();
   }
 }

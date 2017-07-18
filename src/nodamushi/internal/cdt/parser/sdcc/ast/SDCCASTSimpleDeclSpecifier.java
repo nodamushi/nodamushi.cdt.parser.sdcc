@@ -1,6 +1,7 @@
 package nodamushi.internal.cdt.parser.sdcc.ast;
 
 import org.eclipse.cdt.core.dom.ast.ASTVisitor;
+import org.eclipse.cdt.core.dom.ast.IASTExpression;
 import org.eclipse.cdt.core.dom.ast.IASTLiteralExpression;
 import org.eclipse.cdt.internal.core.dom.parser.c.CASTSimpleDeclSpecifier;
 
@@ -13,7 +14,7 @@ implements ISDCCASTSimpleDeclSpecifier{
 
   private int addrspace=as_no_space;
   private boolean banked =false;
-  private IASTLiteralExpression addr = null;
+  private IASTExpression addr = null;
 
 
   @Override
@@ -28,12 +29,16 @@ implements ISDCCASTSimpleDeclSpecifier{
   }
 
   @Override
-  public IASTLiteralExpression getAddress(){
+  public IASTExpression getAddressExpression(){
     return addr;
   }
 
+  @Override @Deprecated public IASTLiteralExpression getAddress() throws ClassCastException{
+    return IASTLiteralExpression.class.cast(getAddressExpression());
+  }
+
   @Override
-  public void setAddress(IASTLiteralExpression addressToken){
+  public void setAddress(IASTExpression addressToken){
     assertNotFrozen();
     this.addr = addressToken;
   }
@@ -57,12 +62,16 @@ implements ISDCCASTSimpleDeclSpecifier{
   @Override
   public SDCCASTSimpleDeclSpecifier copy(CopyStyle style){
     SDCCASTSimpleDeclSpecifier copy = new SDCCASTSimpleDeclSpecifier();
-    copy.addr = addr == null? null:addr.copy(style);
-    copy.addrspace = addrspace;
-    copy.banked = banked;
     return copy(copy,style);
   }
 
+
+  protected <T extends SDCCASTSimpleDeclSpecifier> T copy(T copy ,CopyStyle style){
+    copy.addr = addr == null? null:addr.copy(style);
+    copy.addrspace = addrspace;
+    copy.banked = banked;
+    return super.copy(copy, style);
+  }
 
 
   @Override

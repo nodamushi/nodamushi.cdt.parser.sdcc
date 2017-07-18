@@ -91,8 +91,7 @@ define_address
          /. $Build  consumeDefineAddress();  $EndBuild ./
 
 absolute_address
-    ::= 'integer'
-         /. $Build  consumeAbsoluteAddress();  $EndBuild ./
+    ::= constant_expression
 
 sdcc_type_qualifier
    ::= '__banked'
@@ -138,11 +137,11 @@ sdcc_function_attribute
 
 
 address_function_attribute
-  ::= '__interrupt' '(' integer_token  ')'
+  ::= '__interrupt' '(' constant_expression ')'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);  $EndBuild ./
     | '__interrupt'  integer_token
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__interrupt,true);  $EndBuild ./
-    | '__using' '('  integer_token  ')'
+    | '__using' '('  constant_expression  ')'
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);  $EndBuild ./
     | '__using'  integer_token
      /. $Build  consumeSDCCFunctionAttribute(SDCCKeyword.__using,true);  $EndBuild ./
